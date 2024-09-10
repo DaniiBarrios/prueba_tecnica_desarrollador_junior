@@ -36,3 +36,4 @@ if __name__ == "__main__":
     
     # Llama a la función para leer el archivo CSV
     leer_csv(ruta_archivo)
+

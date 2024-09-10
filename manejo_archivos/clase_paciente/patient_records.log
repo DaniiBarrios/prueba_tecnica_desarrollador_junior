@@ -1,0 +1,21 @@
+from patient_record import PatientRecord
+
+class PatientRecords:
+    def __init__(self):
+        self.records = []
+
+    def add_record(self, record):
+        if isinstance(record, PatientRecord):
+            self.records.append(record)
+        else:
+            raise ValueError("Invalid record type")
+
+    def find_record_by_id(self, patient_id):
+        for record in self.records:
+            if record.patient_id == patient_id:
+                return record
+        return None
+
+    def list_all_records(self):
+        for record in self.records:
+            print(record)

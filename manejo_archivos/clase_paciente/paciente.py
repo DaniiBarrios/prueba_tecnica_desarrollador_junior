@@ -10,9 +10,12 @@ class Paciente:
 
     def calcular_bmi(self):
         """Calcula el índice de masa corporal (BMI)"""
-        height_m = self.height / 100  # Convertir la altura a metros
-        bmi = self.weight / (height_m ** 2)
-        return round(bmi, 2)
+        try:
+            height_m = self.height / 100  # Convertir la altura a metros
+            bmi = self.weight / (height_m ** 2)
+            return round(bmi, 2)
+        except ZeroDivisionError:
+            return "Error: Altura no puede ser cero"
 
     def clasificar_colesterol(self):
         """Clasifica el nivel de colesterol"""
@@ -35,10 +38,17 @@ class Paciente:
     def actualizar_datos(self, datos):
         """
         Actualiza los datos del paciente con la información proporcionada en el diccionario 'datos'.
+        Valida los datos antes de la actualización.
         """
         for key, value in datos.items():
             if hasattr(self, key):
-                setattr(self, key, value)
+                if key in ["age", "weight", "height", "cholesterol", "heart_rate"]:
+                    try:
+                        setattr(self, key, float(value))
+                    except ValueError:
+                        print(f"Error: El valor para {key} debe ser numérico.")
+                else:
+                    setattr(self, key, value)
 
     def __str__(self):
         return (f"ID: {self.patient_id}, Nombre: {self.name}, Edad: {self.age}, "

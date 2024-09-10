@@ -3,10 +3,10 @@ from paciente import Paciente
 
 def procesar_paciente(paciente):
     """
-    Aquì se hace una función que simula el procesamiento de un paciente.
+    Simula el procesamiento de un paciente.
     """
     print(f"Procesando a {paciente.name} (ID: {paciente.patient_id})")
-    # Simular algún procesamiento
+    # Simular procesamiento: actualización de datos
     paciente.actualizar_datos({"cholesterol": 200})
     print(f"Paciente {paciente.name} procesado con éxito.")
 

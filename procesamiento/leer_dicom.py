@@ -1,5 +1,6 @@
 import pydicom
 import logging
+import os
 
 # Configuración del logger
 logging.basicConfig(filename='error.log', level=logging.ERROR)
@@ -30,15 +31,19 @@ def leer_dicom(ruta_archivo):
     
     except Exception as e:
         # Manejar y registrar errores en caso de que el archivo no pueda ser leído
-        logging.error(f"Error al leer el archivo {ruta_archivo}: {e}")
-        print(f"Error al procesar el archivo {ruta_archivo}. Revisa error.log para más detalles.")
+        error_message = f"Error al leer el archivo {ruta_archivo}: {e}"
+        logging.error(error_message)
+        print(error_message)
 
-# Rutas de los archivos DICOM
+# Rutas absolutas de los archivos DICOM
 archivos_dicom = [
-    'C:/Users/00dan/Documents/prueba_tecnica_desarrollador_junior/sample-01-dicom.dcm',
-    'C:/Users/00dan/Documents/prueba_tecnica_desarrollador_junior/sample-02-dicom.dcm'
+    'C:/Users/00dan/Documents/prueba_tecnica_desarrollador_junior/procesamiento/sample-01-dicom.dcm',
+    'C:/Users/00dan/Documents/prueba_tecnica_desarrollador_junior/procesamiento/sample-02-dicom.dcm'
 ]
 
 # Leer y procesar cada archivo DICOM
 for archivo in archivos_dicom:
-    leer_dicom(archivo)
+    if os.path.exists(archivo):
+        leer_dicom(archivo)
+    else:
+        print(f"El archivo {archivo} no existe.")

@@ -14,6 +14,9 @@ def procesar_imagen():
         return jsonify({'error': 'No file provided'}), 400
     
     file = request.files['file']
+
+    if not file.filename.endswith('.dcm'):
+        return jsonify({'error': 'Invalid file format'}), 400
     
     try:
         dicom_file = pydicom.dcmread(file)
@@ -22,7 +25,7 @@ def procesar_imagen():
         modalidad = dicom_file.get('Modality', 'No disponible')
 
         resultado = {
-            'nombre_paciente': nombre_paciente,
+            'nombre_paciente': str(nombre_paciente),
             'fecha_estudio': fecha_estudio,
             'modalidad': modalidad
         }

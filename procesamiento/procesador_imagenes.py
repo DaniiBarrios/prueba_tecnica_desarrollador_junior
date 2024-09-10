@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 import pydicom
 import numpy as np
-import io
 
 app = Flask(__name__)
 
@@ -14,15 +13,25 @@ def procesar_imagen():
     
     try:
         dicom_file = pydicom.dcmread(file)
+        
         # Ejemplo de procesamiento: extraer algunos datos del archivo DICOM
         nombre_paciente = dicom_file.get('PatientName', 'No disponible')
         fecha_estudio = dicom_file.get('StudyDate', 'No disponible')
         modalidad = dicom_file.get('Modality', 'No disponible')
-
+        
+        # Procesar la imagen DICOM si tiene datos de imagen
+        if 'PixelData' in dicom_file:
+            pixel_array = dicom_file.pixel_array
+            # Ejemplo: calcular la media de los píxeles
+            media_pixeles = np.mean(pixel_array)
+        else:
+            media_pixeles = 'No disponible'
+        
         resultado = {
-            'nombre_paciente': nombre_paciente,
+            'nombre_paciente': str(nombre_paciente),
             'fecha_estudio': fecha_estudio,
-            'modalidad': modalidad
+            'modalidad': modalidad,
+            'media_pixeles': media_pixeles
         }
 
         return jsonify(resultado)
